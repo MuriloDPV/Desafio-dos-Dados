@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Logístico - Monitoramento de Entregas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>📊 Aura Entregas</h1>
+            <p class="subtitle">Monitoramento Inteligente de Entregas em Tempo Real</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- FILTERS -->
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="transportFilter">Transportadora</label>
+                <select id="transportFilter">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="regionFilter">Região</label>
+                <select id="regionFilter">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="statusFilter">Status</label>
+                <select id="statusFilter">
+                    <option value="">Todos</option>
+                    <option value="on-time">No Prazo</option>
+                    <option value="delayed">Atrasado</option>
+                </select>
+            </div>
+            <button onclick="resetFilters()">🔄 Limpar Filtros</button>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-section">
+            <div class="kpi-card success">
+                <div class="kpi-title">Total de Entregas</div>
+                <div class="kpi-value" id="totalDeliveries">0</div>
+                <div class="kpi-subtitle">Entregas Registradas</div>
+                <div class="kpi-icon">📦</div>
+            </div>
+            <div class="kpi-card danger">
+                <div class="kpi-title">Entregas Atrasadas</div>
+                <div class="kpi-value" id="delayedCount">0</div>
+                <div class="kpi-subtitle">Com Atraso</div>
+                <div class="kpi-icon">⏱️</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-title">Taxa de Atraso</div>
+                <div class="kpi-value" id="delayRate">0%</div>
+                <div class="kpi-subtitle">Proporção de Atrasos</div>
+                <div class="kpi-icon">📈</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Atraso Médio</div>
+                <div class="kpi-value" id="avgDelay">0</div>
+                <div class="kpi-subtitle">Dias de Atraso</div>
+                <div class="kpi-icon">⏰</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="content-grid">
+            <!-- CHART: Atrasos por Transportadora -->
+            <div class="card">
+                <h2>📊 Atrasos por Transportadora</h2>
+                <div class="chart-container">
+                    <canvas id="transportChart"></canvas>
+                </div>
+            </div>
+
+            <!-- CHART: Atrasos por Região -->
+            <div class="card">
+                <h2>🗺️ Atrasos por Região</h2>
+                <div class="chart-container">
+                    <canvas id="regionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- RANKING: Transportadoras Críticas -->
+            <div class="card">
+                <h2>🚨 Transportadoras Críticas</h2>
+                <ul class="ranking-list" id="transportRanking"></ul>
+            </div>
+
+            <!-- RANKING: Regiões Críticas -->
+            <div class="card">
+                <h2>⚠️ Regiões Críticas</h2>
+                <ul class="ranking-list" id="regionRanking"></ul>
+            </div>
+
+            <!-- STATISTICS -->
+            <div class="card">
+                <h2>📉 Estatísticas Gerais</h2>
+                <div id="statsContent"></div>
+            </div>
+
+            <!-- ALERTS -->
+            <div class="card">
+                <h2>🔔 Alertas Críticos</h2>
+                <div id="alertsContainer"></div>
+            </div>
+
+            <!-- TABLE: Todas as Entregas -->
+            <div class="card full-width">
+                <h2>📋 Detalhes das Entregas</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Transportadora</th>
+                                <th>Região</th>
+                                <th>Prazo</th>
+                                <th>Dias Reais</th>
+                                <th>Diferença</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
